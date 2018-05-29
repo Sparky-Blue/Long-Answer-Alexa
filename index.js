@@ -39,20 +39,15 @@ function populateRoundAnswers(gameQuestionIndexes, categoryQuestions) {
 function isAnswerSlotValid(intent) {
   const answerSlotFilled =
     intent && intent.slots && intent.slots.Answer && intent.slots.Answer.value;
-  // const answerSlotIsInt =
-  //   answerSlotFilled && !Number.isNaN(parseInt(intent.slots.Answer.value, 10));
   return answerSlotFilled;
 }
 
 function handleUserGuess(userGaveUp, handlerInput) {
   const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
   const { intent } = requestEnvelope.request;
-
   const answerSlotValid = isAnswerSlotValid(intent);
-
   let speechOutput = "";
   let speechOutputAnalysis = "";
-
   const sessionAttributes = attributesManager.getSessionAttributes();
   const gameQuestions = [...sessionAttributes.questions];
   const repeatedQuestions = [...sessionAttributes.repeatedQuestions];
@@ -70,8 +65,10 @@ function handleUserGuess(userGaveUp, handlerInput) {
   const currentQuestion = gameQuestions[currentQuestionIndex];
 
   if (
-    answerSlotValid &&
-    intent.slots.Answer.value.toLowerCase() ===
+    (answerSlotValid &&
+      intent.slots.Answer.value.toLowerCase() ===
+        currentCorrectAnswer.toLowerCase()) ||
+    intent.slots.Answer.resolutions.resolutionsPerAuthority[0].values[0].value.name.toLowerCase() ===
       currentCorrectAnswer.toLowerCase()
   ) {
     currentScore += 1;
