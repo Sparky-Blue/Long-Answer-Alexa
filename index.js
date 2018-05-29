@@ -170,14 +170,7 @@ function startGame(newGame, handlerInput) {
   const correctAnswerIndex = Math.floor(Math.random() * ANSWER_COUNT);
 
   let speechOutput = newGame
-    ? requestAttributes.t(
-        "NEW_GAME_MESSAGE",
-        requestAttributes.t("GAME_NAME")
-      ) +
-      requestAttributes.t(
-        "WELCOME_MESSAGE",
-        categoryQuestions.length.toString()
-      )
+    ? requestAttributes.t("NEW_GAME_MESSAGE", requestAttributes.t("GAME_NAME"))
     : "";
 
   const roundAnswers = populateRoundAnswers(gameQuestions, categoryQuestions);
@@ -234,11 +227,12 @@ function helpTheUser(newGame, handlerInput) {
     .getResponse();
 }
 
-/* jshint -W101 */
 const languageString = {
   en: {
     translation: {
       QUESTIONS: questions.QUESTIONS_EN_US,
+      WELCOME_MESSAGE: `Welcome to the Medical Quiz!  Choose a category to start. The categories cardiovascular, paediatrics or orthopedics. `,
+      HELP_LAUNCH_MESSAGE: `The categories are cardiovascular, paediatrics or orthopedics. `,
       GAME_NAME: "The Medical quiz",
       HELP_MESSAGE:
         "Just say your answer. To start a new game at any time, say, start game. ",
@@ -251,8 +245,7 @@ const languageString = {
       NO_MESSAGE: "Ok, we'll play another time. Goodbye!",
       HELP_UNHANDLED: "Say yes to continue, or no to end the game.",
       START_UNHANDLED: "Say start to start a new game.",
-      NEW_GAME_MESSAGE: "Welcome to %s. ",
-      WELCOME_MESSAGE:
+      NEW_GAME_MESSAGE:
         "I will ask you %s questions to start, try to get as many right as you can. Just say the answer or pass to hear the answer. Wrong answers will be asked again. Let's begin. ",
       ANSWER_CORRECT_MESSAGE: "correct. ",
       ANSWER_WRONG_MESSAGE: "wrong. ",
@@ -271,9 +264,6 @@ const languageString = {
     }
   }
 };
-
-const WELCOME_MESSAGE = `Welcome to the Medical Quiz!  Choose a category to start. The categories cardiovascular, paediatrics or orthopedics. `;
-const HELP_LAUNCH_MESSAGE = `The categories are cardiovascular, paediatrics or orthopedics. `;
 
 const LocalizationInterceptor = {
   process(handlerInput) {
@@ -304,10 +294,11 @@ const LaunchRequest = {
     );
   },
   handle(handlerInput) {
+    const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
     handlerInput.attributesManager.setSessionAttributes({});
     return handlerInput.responseBuilder
-      .speak(WELCOME_MESSAGE)
-      .reprompt(HELP_LAUNCH_MESSAGE)
+      .speak(requestAttributes.t("WELCOME_MESSAGE"))
+      .reprompt(requestAttributes.t("HELP_LAUNCH_MESSAGE"))
       .getResponse();
   }
 };
