@@ -1,0 +1,285 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "medical quiz two",
+            "intents": [
+                {
+                    "name": "CategoryIntent",
+                    "slots": [
+                        {
+                            "name": "Category",
+                            "type": "MedicalQuizCategory"
+                        }
+                    ],
+                    "samples": [
+                        "{Category} quiz",
+                        "{Category} questions",
+                        "{Category}",
+                        "play {Category}"
+                    ]
+                },
+                {
+                    "name": "AnswerIntent",
+                    "slots": [
+                        {
+                            "name": "Answer",
+                            "type": "MedicalAnswers"
+                        }
+                    ],
+                    "samples": [
+                        "the answer is {Answer}",
+                        "my answer is {Answer}",
+                        "is it {Answer}",
+                        "{Answer} is my answer",
+                        "{Answer}"
+                    ]
+                },
+                {
+                    "name": "DontKnowIntent",
+                    "slots": [],
+                    "samples": [
+                        "give up",
+                        "not sure",
+                        "pass",
+                        "i don't know",
+                        "don't know",
+                        "skip",
+                        "i don't know that",
+                        "who knows",
+                        "i don't know this question",
+                        "i don't know that one",
+                        "dunno"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StartOverIntent",
+                    "samples": [
+                        "restart",
+                        "start test",
+                        "start quiz",
+                        "start game",
+                        "new game",
+                        "start",
+                        "start new game"
+                    ]
+                },
+                {
+                    "name": "AMAZON.RepeatIntent",
+                    "samples": [
+                        "repeat"
+                    ]
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": [
+                        "help"
+                    ]
+                },
+                {
+                    "name": "AMAZON.YesIntent",
+                    "samples": [
+                        "yes"
+                    ]
+                },
+                {
+                    "name": "AMAZON.NoIntent",
+                    "samples": [
+                        "no"
+                    ]
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "exit",
+                        "stop",
+                        "end",
+                        "quit"
+                    ]
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": [
+                        "cancel"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "MedicalQuizCategory",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "cardiovascular"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "paediatrics"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "orthopedics"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "MedicalAnswers",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "indigo"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "purple"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "orange"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lilac"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "yellow"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "green"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "red"
+                            }
+                        },
+                        {
+                            "id": "blue",
+                            "name": {
+                                "value": "blue",
+                                "synonyms": [
+                                    "sky coloured",
+                                    "light blue",
+                                    "sky blue"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "AnalepticDrugs",
+                            "name": {
+                                "value": "Analeptic Drugs",
+                                "synonyms": [
+                                    "Analeptics"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "CongenitalRubella",
+                            "name": {
+                                "value": "Congenital rubella"
+                            }
+                        },
+                        {
+                            "id": "Bradycardia",
+                            "name": {
+                                "value": "Bradycardia"
+                            }
+                        },
+                        {
+                            "id": "TricuspidAtresia",
+                            "name": {
+                                "value": "Tricuspid atresia"
+                            }
+                        },
+                        {
+                            "id": "Hypothyroidism",
+                            "name": {
+                                "value": "Hypothyroidism"
+                            }
+                        },
+                        {
+                            "id": "PDA",
+                            "name": {
+                                "value": "Posterior descending artery",
+                                "synonyms": [
+                                    "PDA"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "LCA",
+                            "name": {
+                                "value": "Left circumflex artery",
+                                "synonyms": [
+                                    "L C A",
+                                    "LCA"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "LAD",
+                            "name": {
+                                "value": "Left anterior descending artery",
+                                "synonyms": [
+                                    "LAD",
+                                    "L A D"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "RCA",
+                            "name": {
+                                "value": "Right coronary artery",
+                                "synonyms": [
+                                    "R.C.A",
+                                    "r.c.a",
+                                    "r c a",
+                                    "R C A"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "PneumaticIntermittentImpulseDevice",
+                            "name": {
+                                "value": "Pneumatic Intermittent Impulse Device",
+                                "synonyms": [
+                                    "Intermittent Pneumatic Compression Devices"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "Firefly",
+                            "name": {
+                                "value": "Firefly",
+                                "synonyms": [
+                                    "Fireflies",
+                                    "Lampyridae"
+                                ]
+                            }
+                        },
+                        {
+                            "id": "SodiumChlorideTransporter",
+                            "name": {
+                                "value": "Sodium Chloride Transporter",
+                                "synonyms": [
+                                    "n a c l transporters",
+                                    "n a c l symporters",
+                                    "Sodium Chloride Cotransporter"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
