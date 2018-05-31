@@ -1,0 +1,385 @@
+{
+    "name": "MedicalAnswers",
+    "values": [
+        
+        {
+    "name": {
+        "value": "Streptococcus viridans"
+    }
+},
+{
+    "name": {
+        "value": "Staphylococcus aureus"
+    }
+},
+{
+    "name": {
+        "value": "Staphylococcus epidermidis"
+    }
+},
+{
+    "name": {
+        "value": "Streptococcus bovis"
+    }
+},
+{
+    "name": {
+        "value": "ST segment elevation"
+    }
+},
+{
+    "name": {
+        "value": "ST segment depression"
+    }
+},
+{
+    "name": {
+        "value": "Absent P waves"
+    }
+},
+{
+    "name": {
+        "value": "Prolonged PR interval"
+    }
+},
+{
+    "name": {
+        "value": "Chronic rheumatic valve disease"
+    }
+},
+{
+    "name": {
+        "value": "Acute rheumatic fever"
+    }
+},
+{
+    "name": {
+        "value": "Congestive heart failure"
+    }
+},
+{
+    "name": {
+        "value": "Infective endocarditis"
+    }
+},
+{
+    "name": {
+        "value": "Left sided heart failure"
+    }
+},
+{
+    "name": {
+        "value": "Chronic lung disease (or Pulmonale)"
+    }
+},
+{
+    "name": {
+        "value": "Hypothyroidism"
+    }
+},
+{
+    "name": {
+        "value": "Endocarditis"
+    }
+},
+{
+    "name": {
+        "value": "Restrictive cardiomyopathy"
+    }
+},
+{
+    "name": {
+        "value": "Arrhythmiaortic dissection"
+    }
+},
+{
+    "name": {
+        "value": "Yellow pallor"
+    }
+},
+{
+    "name": {
+        "value": "Dark discolouration"
+    }
+},
+{
+    "name": {
+        "value": "White scar"
+    }
+},
+{
+    "name": {
+        "value": "Red border around yellow pallor"
+    }
+},
+{
+    "name": {
+        "value": "Congenital rubella"
+    }
+},
+{
+    "name": {
+        "value": "Down's syndrome"
+    }
+},
+{
+    "name": {
+        "value": "Foetal alcohol syndrome"
+    }
+},
+{
+    "name": {
+        "value": "Maternal diabetes"
+    }
+},
+{
+    "name": {
+        "value": "Fibrinous pericarditis"
+    }
+},
+{
+    "name": {
+        "value": "Coronary artery aneurysm"
+    }
+},
+{
+    "name": {
+        "value": "Arrhythmia"
+    }
+},
+{
+    "name": {
+        "value": "Mitral insufficiency"
+    }
+},
+{
+    "name": {
+        "value": "Tricuspid atresia"
+    }
+},
+{
+    "name": {
+        "value": "Truncus arteriosusoarctation of the aorta"
+    }
+},
+{
+    "name": {
+        "value": "Patent ductus arteriosus"
+    }
+},
+{
+    "name": {
+        "value": "Right coronary artery "
+    }
+},
+{
+    "name": {
+        "value": "Left anterior descending artery "
+    }
+},
+{
+    "name": {
+        "value": "Left circumflex artery "
+    }
+},
+{
+    "name": {
+        "value": "Posterior descending artery "
+    }
+},
+{
+    "name": {
+        "value": "Bradycardia"
+    }
+},
+{
+    "name": {
+        "value": "AST"
+    }
+},
+{
+    "name": {
+        "value": "LDH"
+    }
+},
+{
+    "name": {
+        "value": "Troponin I"
+    }
+},
+{
+    "name": {
+        "value": "C K M B"
+    }
+},
+{
+    "name": {
+        "value": "Hypertrophic cardiomyopathy"
+    }
+},
+{
+    "name": {
+        "value": "Restrictive cardiomyopathy"
+    }
+},
+{
+    "name": {
+        "value": "Dilated cardiomyopathy"
+    }
+},
+{
+    "name": {
+        "value": "Agonadotrophin releasing hormone (GnRH)"
+    }
+},
+{
+    "name": {
+        "value": "vasopressin (antidiuretic hormone)"
+    }
+},
+{
+    "name": {
+        "value": "growth hormone (GH)"
+    }
+},
+{
+    "name": {
+        "value": "Adrenocorticotropic hormone (ACTH)"
+    }
+},
+{
+    "name": {
+        "value": "Gonadotrophin Releasing Hormone (GnRH)"
+    }
+},
+{
+    "name": {
+        "value": "Testosterone"
+    }
+},
+{
+    "id": "ABG",
+    "name": {
+        "value": "Androgen Binding Globulin",
+        "synonyms": [
+            "A B G",
+            "a.b.g.",
+            "abg"
+        ]
+    }
+},
+{
+    "name": {
+        "value": "Oestrogen"
+    }
+},
+{
+    "name": {
+        "value": "Men "
+    }
+},
+{
+    "name": {
+        "value": "Women "
+    }
+},
+{
+    "name": {
+        "value": "Both"
+    }
+},
+{
+    "name": {
+        "value": "Toxic thyroid adenoma"
+    }
+},
+{
+    "name": {
+        "value": "Grave's disease"
+    }
+},
+{
+    "name": {
+        "value": "Toxic multinodular goitre"
+    }
+},
+{
+    "name": {
+        "value": "Thyroiditis"
+    }
+},
+{
+    "name": {
+        "value": "Follicle stimulating hormone (FSH)"
+    }
+},
+{
+    "name": {
+        "value": "Luteinizing hormone (LH)"
+    }
+},
+{
+    "name": {
+        "value": "Thyroglobulin antibody"
+    }
+},
+{
+    "name": {
+        "value": "TSH receptor antibodies"
+    }
+},
+{
+    "name": {
+        "value": "Thyroid peroxidase antibody"
+    }
+},
+{
+    "name": {
+        "value": "Decrease in blood volume"
+    }
+},
+{
+    "name": {
+        "value": "Increase in blood volume"
+    }
+},
+{
+    "name": {
+        "value": "Adrenocorticotropic hormone (ACTH)"
+    }
+},
+{
+    "name": {
+        "value": "Gonadotrophin releasing hormone (GnRH)"
+    }
+},
+{
+    "name": {
+        "value": "Corticotropic releasing hormone (CRH)"
+    }
+},
+{
+    "name": {
+        "value": "Serum IGF1 measurement"
+    }
+},
+{
+    "name": {
+        "value": "Growth hormone measurement"
+    }
+},
+{
+    "name": {
+        "value": "Oral glucose tolerance test + Growth hormone measurement"
+    }
+},
+{
+    "name": {
+        "value": "Growth hormone releasing hormone measurement"
+
+            }
+        }
+
+        
+    ]
+}
