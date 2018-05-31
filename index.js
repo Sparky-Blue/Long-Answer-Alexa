@@ -6,13 +6,11 @@ const questions = require("./questions");
 const i18n = require("i18next");
 const sprintf = require("i18next-sprintf-postprocessor");
 
-const ANSWER_COUNT = 4;
-
 function populateGameQuestions(categoryQuestions) {
   const gameQuestions = [];
   const indexList = [];
   let index = categoryQuestions.length;
-  let gameLength = categoryQuestions.length;
+  let gameLength = 4;
   for (let i = 0; i < categoryQuestions.length; i += 1) {
     indexList.push(i);
   }
@@ -42,6 +40,19 @@ function isAnswerSlotValid(intent) {
   return answerSlotFilled;
 }
 
+function isAnswerCorrect(intent, sessionAttributes) {
+  const { roundAnswers, currentQuestionIndex } = sessionAttributes;
+  const currentCorrectAnswer = roundAnswers[currentQuestionIndex];
+  const { Answer } = intent.slots;
+  console.log(Answer, Answer.resolutions.resolutionsPerAuthority[0].values);
+  const answerCorrect =
+    Answer.value.toLowerCase() === currentCorrectAnswer.toLowerCase() ||
+    (Answer.resolutions.resolutionsPerAuthority[0].values &&
+      Answer.resolutions.resolutionsPerAuthority[0].values[0].value.name.toLowerCase() ===
+        currentCorrectAnswer.toLowerCase());
+  return answerCorrect;
+}
+
 function handleUserGuess(userGaveUp, handlerInput) {
   const { requestEnvelope, attributesManager, responseBuilder } = handlerInput;
   const { intent } = requestEnvelope.request;
@@ -52,42 +63,33 @@ function handleUserGuess(userGaveUp, handlerInput) {
   const gameQuestions = [...sessionAttributes.questions];
   const repeatedQuestions = [...sessionAttributes.repeatedQuestions];
   let gameLength = gameQuestions.length;
-  let correctAnswerIndex = parseInt(sessionAttributes.correctAnswerIndex, 10);
   let currentScore = parseInt(sessionAttributes.score, 10);
   let currentQuestionIndex = parseInt(
     sessionAttributes.currentQuestionIndex,
     10
   );
   let { correctAnswerText, roundAnswers } = sessionAttributes;
-  let currentCorrectAnswer = roundAnswers[currentQuestionIndex];
   const requestAttributes = attributesManager.getRequestAttributes();
   const categoryQuestions = questions[sessionAttributes.category];
   const currentQuestion = gameQuestions[currentQuestionIndex];
-
-  if (
-    (answerSlotValid &&
-      intent.slots.Answer.value.toLowerCase() ===
-        currentCorrectAnswer.toLowerCase()) ||
-    intent.slots.Answer.resolutions.resolutionsPerAuthority[0].values[0].value.name.toLowerCase() ===
-      currentCorrectAnswer.toLowerCase()
-  ) {
+  const answerIsCorrect = userGaveUp
+    ? false
+    : isAnswerCorrect(intent, sessionAttributes);
+  if (answerSlotValid && answerIsCorrect) {
     currentScore += 1;
     speechOutputAnalysis = requestAttributes.t("ANSWER_CORRECT_MESSAGE");
   } else {
+    // const currentRepeats = gameQuestions.filter(
+    //   question => question === currentQuestion
+    // );
+    // if (currentRepeats.length < 2) {
+    // gameQuestions.push(currentQuestion);
+    repeatedQuestions.push(currentQuestion);
+    // ++gameLength;
+    // }
     if (!userGaveUp) {
       speechOutputAnalysis = requestAttributes.t("ANSWER_WRONG_MESSAGE");
     }
-
-    const currentRepeats = gameQuestions.filter(
-      question => question === currentQuestion
-    );
-
-    if (currentRepeats.length < 3) {
-      gameQuestions.push(currentQuestion);
-      repeatedQuestions.push(currentQuestion);
-      ++gameLength;
-    }
-
     speechOutputAnalysis += requestAttributes.t(
       "CORRECT_ANSWER_MESSAGE",
       correctAnswerText
@@ -96,6 +98,7 @@ function handleUserGuess(userGaveUp, handlerInput) {
 
   // Check if we can exit the game session after gameLength questions (zero-indexed)
   if (sessionAttributes.currentQuestionIndex === gameLength - 1) {
+    console.log("here");
     speechOutput = userGaveUp ? "" : requestAttributes.t("ANSWER_IS_MESSAGE");
     speechOutput +=
       speechOutputAnalysis +
@@ -107,26 +110,25 @@ function handleUserGuess(userGaveUp, handlerInput) {
 
     const repeatQuestionSummary = repeatedQuestions.reduce(
       (acc, question, i) => {
-        const missedQuestion = Object.keys(
-          categoryQuestions[gameQuestions[question]]
-        )[0];
-        if (i === repeatedQuestions.indexOf(question)) acc += missedQuestion;
+        const missedQuestion = Object.keys(categoryQuestions[question])[0];
+        acc += missedQuestion + "\n";
         return acc;
       },
       ""
     );
-
+    console.log(repeatQuestionSummary);
     return responseBuilder
       .speak(speechOutput)
-      .withSimpleCard("Repeated questions: " + repeatQuestionSummary)
+      .withSimpleCard(
+        requestAttributes.t("REPEATED_QUESTIONS_CARD"),
+        repeatQuestionSummary
+      )
       .getResponse();
   }
   currentQuestionIndex += 1;
-  correctAnswerIndex = Math.floor(Math.random() * ANSWER_COUNT);
   const spokenQuestion = Object.keys(
     categoryQuestions[gameQuestions[currentQuestionIndex]]
   )[0];
-
   roundAnswers = populateRoundAnswers(gameQuestions, categoryQuestions);
   const questionIndexForSpeech = currentQuestionIndex + 1;
   let repromptText = requestAttributes.t(
@@ -146,7 +148,6 @@ function handleUserGuess(userGaveUp, handlerInput) {
     speechOutput: repromptText,
     repromptText,
     currentQuestionIndex,
-    correctAnswerIndex: correctAnswerIndex + 1,
     repeatedQuestions,
     questions: gameQuestions,
     roundAnswers,
@@ -165,9 +166,9 @@ function startGame(newGame, handlerInput) {
   const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
   const category =
     handlerInput.requestEnvelope.request.intent.slots.Category.value;
+  console.log(category);
   const categoryQuestions = questions[category];
   const gameQuestions = populateGameQuestions(categoryQuestions);
-  const correctAnswerIndex = Math.floor(Math.random() * ANSWER_COUNT);
 
   let speechOutput = newGame
     ? requestAttributes.t("NEW_GAME_MESSAGE", requestAttributes.t("GAME_NAME"))
@@ -195,7 +196,6 @@ function startGame(newGame, handlerInput) {
     repromptText,
     currentQuestionIndex,
     category,
-    correctAnswerIndex: correctAnswerIndex + 1,
     repeatedQuestions: [],
     questions: gameQuestions,
     score: 0,
@@ -231,8 +231,8 @@ const languageString = {
   en: {
     translation: {
       QUESTIONS: questions.QUESTIONS_EN_US,
-      WELCOME_MESSAGE: `Welcome to the Medical Quiz!  Choose a category to start. The categories cardiovascular, paediatrics or orthopedics. `,
-      HELP_LAUNCH_MESSAGE: `The categories are cardiovascular, paediatrics or orthopedics. `,
+      WELCOME_MESSAGE: `Welcome to the Medical Quiz!  Choose a category to start. The categories cardiovascular, endocrinology or orthopedics. `,
+      HELP_LAUNCH_MESSAGE: `The categories are cardiovascular, endocrinology or orthopedics. `,
       GAME_NAME: "The Medical quiz",
       HELP_MESSAGE:
         "Just say your answer. To start a new game at any time, say, start game. ",
@@ -254,7 +254,8 @@ const languageString = {
       TELL_QUESTION_MESSAGE: "Question %s. %s ",
       GAME_OVER_MESSAGE:
         "You got %s out of %s questions correct. Thank you for playing!",
-      SCORE_IS_MESSAGE: "Your score is %s. "
+      SCORE_IS_MESSAGE: "Your score is %s. ",
+      REPEATED_QUESTIONS_CARD: "Repeated Questions: "
     }
   },
   "en-GB": {
@@ -305,6 +306,7 @@ const LaunchRequest = {
 
 const CategoryIntent = {
   canHandle(handlerInput) {
+    console.log(handlerInput.requestEnvelope.request.intent.name);
     return (
       handlerInput.requestEnvelope.request.type === "IntentRequest" &&
       handlerInput.requestEnvelope.request.intent.name === "CategoryIntent"
@@ -312,6 +314,22 @@ const CategoryIntent = {
   },
   handle(handlerInput) {
     return startGame(true, handlerInput);
+  }
+};
+
+const AnswerIntent = {
+  canHandle(handlerInput) {
+    return (
+      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
+      (handlerInput.requestEnvelope.request.intent.name === "AnswerIntent" ||
+        handlerInput.requestEnvelope.request.intent.name === "DontKnowIntent")
+    );
+  },
+  handle(handlerInput) {
+    if (handlerInput.requestEnvelope.request.intent.name === "AnswerIntent") {
+      return handleUserGuess(false, handlerInput);
+    }
+    return handleUserGuess(true, handlerInput);
   }
 };
 
@@ -346,10 +364,7 @@ const UnhandledIntent = {
         .reprompt(speechOutput)
         .getResponse();
     } else if (sessionAttributes.questions) {
-      const speechOutput = requestAttributes.t(
-        "HELP_MESSAGE",
-        ANSWER_COUNT.toString()
-      );
+      const speechOutput = requestAttributes.t("HELP_MESSAGE");
       return handlerInput.attributesManager
         .speak(speechOutput)
         .reprompt(speechOutput)
@@ -375,22 +390,6 @@ const SessionEndedRequest = {
     );
 
     return handlerInput.responseBuilder.getResponse();
-  }
-};
-
-const AnswerIntent = {
-  canHandle(handlerInput) {
-    return (
-      handlerInput.requestEnvelope.request.type === "IntentRequest" &&
-      (handlerInput.requestEnvelope.request.intent.name === "AnswerIntent" ||
-        handlerInput.requestEnvelope.request.intent.name === "DontKnowIntent")
-    );
-  },
-  handle(handlerInput) {
-    if (handlerInput.requestEnvelope.request.intent.name === "AnswerIntent") {
-      return handleUserGuess(false, handlerInput);
-    }
-    return handleUserGuess(true, handlerInput);
   }
 };
 
