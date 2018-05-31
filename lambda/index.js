@@ -18,7 +18,6 @@ function populateGameQuestions(categoryQuestions) {
   for (let j = 0; j < gameLength; j += 1) {
     const rand = Math.floor(Math.random() * index);
     index -= 1;
-
     const temp = indexList[index];
     indexList[index] = indexList[rand];
     indexList[rand] = temp;
@@ -79,14 +78,7 @@ function handleUserGuess(userGaveUp, handlerInput) {
     currentScore += 1;
     speechOutputAnalysis = requestAttributes.t("ANSWER_CORRECT_MESSAGE");
   } else {
-    // const currentRepeats = gameQuestions.filter(
-    //   question => question === currentQuestion
-    // );
-    // if (currentRepeats.length < 2) {
-    // gameQuestions.push(currentQuestion);
     repeatedQuestions.push(currentQuestion);
-    // ++gameLength;
-    // }
     if (!userGaveUp) {
       speechOutputAnalysis = requestAttributes.t("ANSWER_WRONG_MESSAGE");
     }
@@ -96,7 +88,6 @@ function handleUserGuess(userGaveUp, handlerInput) {
     );
   }
 
-  // Check if we can exit the game session after gameLength questions (zero-indexed)
   if (sessionAttributes.currentQuestionIndex === gameLength - 1) {
     console.log("here");
     speechOutput = userGaveUp ? "" : requestAttributes.t("ANSWER_IS_MESSAGE");
